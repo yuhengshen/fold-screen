@@ -2,38 +2,23 @@
 import { getMainRouter, getSecondRouter } from "../utils";
 
 const isSM = useMediaQuery("(min-width: 640px)");
+const secondScreenPath = ref("");
 
 watch(
   isSM,
-  (val) => {
+  async (val) => {
     if (val) {
-      // 等待副屏幕 app 初始化完成
-      window.addEventListener(
-        "message",
-        async (e) => {
-          if (e.data.type === "screen:ready") {
-            // 从小屏幕 -> 大屏幕
-            const mainRouter = getMainRouter();
-            const secondRouter = getSecondRouter();
-
-            const currentRoute = mainRouter.currentRoute.value;
-            if (currentRoute.meta.screen) {
-              await mainRouter.back();
-              await secondRouter.push(currentRoute.path);
-            }
-          }
-        },
-        { once: true }
-      );
+      // 从小屏幕 -> 大屏幕
+      const mainRouter = getMainRouter();
+      const currentRoute = mainRouter.currentRoute.value;
+      secondScreenPath.value = currentRoute.fullPath;
+      await mainRouter.back();
     } else {
       // 从大屏幕 -> 小屏幕
       const mainRouter = getMainRouter();
-      const secondRouter = getSecondRouter();
-
+      const secondRouter = getSecondRouter()!;
       const currentRoute = secondRouter.currentRoute.value;
-      if (currentRoute.meta.screen) {
-        mainRouter.push(currentRoute.path);
-      }
+      mainRouter.push(currentRoute.path);
     }
   },
   {
@@ -55,7 +40,7 @@ watch(
       v-if="isSM"
       name="second-screen"
       class="w-full h-full"
-      src="./screen.html"
+      :src="`./screen.html#${secondScreenPath}`"
     ></iframe>
   </div>
 </template>
