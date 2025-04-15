@@ -11,14 +11,20 @@ watch(
       // 从小屏幕 -> 大屏幕
       const mainRouter = getMainRouter();
       const currentRoute = mainRouter.currentRoute.value;
-      secondScreenPath.value = currentRoute.fullPath;
-      await mainRouter.back();
+      if (currentRoute.meta.screen) {
+        secondScreenPath.value = currentRoute.fullPath;
+        await mainRouter.back();
+      } else {
+        secondScreenPath.value = "";
+      }
     } else {
       // 从大屏幕 -> 小屏幕
       const mainRouter = getMainRouter();
       const secondRouter = getSecondRouter()!;
-      const currentRoute = secondRouter.currentRoute.value;
-      mainRouter.push(currentRoute.path);
+      if (secondRouter.currentRoute.value.meta.screen) {
+        const currentRoute = secondRouter.currentRoute.value;
+        mainRouter.push(currentRoute.path);
+      }
     }
   },
   {

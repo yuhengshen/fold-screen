@@ -27,7 +27,7 @@ const showDetail = (item: number) => {
 </script>
 
 <template>
-  <van-nav-bar title="列表" />
+  <van-nav-bar title="列表页" />
 
   <van-list
     v-model:loading="loading"
@@ -38,7 +38,9 @@ const showDetail = (item: number) => {
     <van-cell
       v-for="item in list"
       :key="item"
-      :title="item"
+      :title="`id: ${item}`"
+      value="查看详情"
+      label="试试调整屏幕大小"
       @click="showDetail(item)"
     />
   </van-list>
