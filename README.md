@@ -39,3 +39,10 @@
 - 使用 sessionStorage 保存页面状态（iframe内可共享）
 - 在屏幕模式切换时自动恢复之前的浏览状态
 - 不同 ID 的状态需隔离，同时需处理详情页 ID 相关的状态保存和恢复
+
+## 运行
+
+```bash
+pnpm install
+pnpm dev
+```

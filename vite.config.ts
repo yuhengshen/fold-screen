@@ -4,9 +4,11 @@ import tailwindcss from "@tailwindcss/vite";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { VantResolver } from "unplugin-vue-components/resolvers";
+import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
   plugins: [
+    VitePWA({ registerType: 'autoUpdate' }),
     tailwindcss(),
     vue(),
     AutoImport({
